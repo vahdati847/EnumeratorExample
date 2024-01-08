@@ -6,26 +6,14 @@ namespace ConsoleApp.Enumerators;
 public class FIFOEnumerator : IEnumerator<Product>
 {
     List<Product> _products { get; set; }
-    int position = -1;
+    int position;
     public FIFOEnumerator(List<Product> products)
     {
         _products = products;
+        Reset();
     }
 
-    public Product Current 
-    {
-        get 
-        {
-            try
-            {
-                return _products[position];
-            }
-            catch 
-            {
-                throw new Exception("Current item not found");
-            }
-        }
-    }
+    public Product Current => _products[position];
 
     object IEnumerator.Current
     {
@@ -37,7 +25,7 @@ public class FIFOEnumerator : IEnumerator<Product>
 
     public void Dispose()
     {
-        _products.Clear();
+        _products = null!;
     }
 
     public bool MoveNext()

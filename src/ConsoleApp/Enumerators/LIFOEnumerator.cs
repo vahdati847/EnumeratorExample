@@ -11,23 +11,10 @@ public class LIFOEnumerator : IEnumerator<Product>
     public LIFOEnumerator(List<Product> products)
     {
         _products = products;
-        position = _products.Count - 1;
+        Reset();
     }
         
-    public Product Current 
-    {
-        get
-        {
-            try
-            {
-                return _products[position];
-            }
-            catch
-            {
-                throw new Exception("Current item not found");
-            }
-        }
-    }
+    public Product Current => _products[position];
 
     object IEnumerator.Current
     {
@@ -39,17 +26,17 @@ public class LIFOEnumerator : IEnumerator<Product>
 
     public void Dispose()
     {
-        _products.Clear();
+        _products = null!;
     }
 
     public bool MoveNext()
     {
         position--;
-        return position >= 0;
+        return position > -1;
     }
 
     public void Reset()
     {
-        position = _products.Count -1 ;
+        position = _products.Count;
     }
 }
